@@ -12,5 +12,3 @@ before_script:
 
 script:
   - node_modules/newman run tests/Oanda.postman_collection.json -e "Oanda - Demo.postman_environment.json"
-  
-  
