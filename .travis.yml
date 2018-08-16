@@ -8,7 +8,7 @@ install:
 before_script:
   - node --version
   - npm --version
-  - node_modules/.bin/newman --version
+  - newman --version
 
 script:
   - newman run tests/Oanda.postman_collection.json -e tests/"Oanda - Demo.postman_environment.json"
