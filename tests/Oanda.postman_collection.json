@@ -1,0 +1,1349 @@
+{
+	"info": {
+		"_postman_id": "6530d36b-07a6-45bf-9c40-b271117e13af",
+		"name": "Oanda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Account Endpoint",
+			"item": [
+				{
+					"name": "Get Account list for current auth token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "76028701-f843-4f83-b26a-b4a0c4e59ad5",
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"var id = data.accounts[0].id;",
+									"tests[\"ID = \" + id] = data.accounts[0].id === \"101-001-7586742-001\";",
+									"",
+									"pass = true;",
+									"fail = false;",
+									"if (id === environment.accountID){",
+									"    tests[\"AccountID = \" + id] = pass;}",
+									"else ",
+									"    tests[\"AccountID = \" + id] = fail;",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/v3/accounts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v3",
+								"accounts"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts\\\""
+					},
+					"response": []
+				},
+				{
+					"name": "Get details for Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c7f1868-c27c-4501-9f80-b8ede569b8f4",
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"var id = data.account.id;",
+									"//console.log(id);",
+									"tests[\"Response ID = \" + id] = data.account.id === \"101-001-7586742-001\";",
+									"",
+									"//console.log(pm.response.status);",
+									"",
+									"pass = true;",
+									"fail = false;",
+									"",
+									"if (id === environment.accountID) {",
+									"    tests[\"Response ID \" + id + \" is correct.\"] = pass;",
+									"}",
+									"else",
+									"    tests[\"Response ID \" + id + \" is correct.\"] = fail;",
+									"    ",
+									"//console.log(data.lastTransactionID);",
+									"",
+									"if (data.lastTransactionID === environment.lastTranID) {",
+									"    tests[\"LastTransactionID is correct = \" + data.lastTransactionID] = pass;",
+									"} ",
+									"else if (data.lastTransactionID != environment.lastTranID) {",
+									"    pm.environment.set(\"lastTranID\", data.lastTransactionID);",
+									"    tests[\"lastTranID updated to \" + data.lastTransactionID] = pass;",
+									"}",
+									"else",
+									"tests[\"LastTrasactionID test fails\"] = fail;",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/v3/accounts/{{accountID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v3",
+								"accounts",
+								"{{accountID}}"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>\\\""
+					},
+					"response": []
+				},
+				{
+					"name": "Get summary for Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cdc982a2-c3f0-4fd0-b6f2-48c80a5efb14",
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"var id = data.account.id;",
+									"//console.log(id);",
+									"tests[\"Response ID = \" + id] = data.account.id === \"101-001-7586742-001\";",
+									"",
+									"var lastTran = data.lastTransactionID;",
+									"pass = true;",
+									"fail = false;",
+									"",
+									"",
+									"if (lastTran === environment.lastTranID && data.account.lastTransactionID === environment.lastTranID) {",
+									"    tests[\"LastTransactionID is correct = \" + lastTran]",
+									"    = pass;",
+									"} ",
+									"else if (lastTran != environment.lastTranID ||  data.account.lastTransactionID != environment.lastTranID) {",
+									"    pm.environment.set(\"lastTranID\", lastTran);",
+									"    tests[\"lastTranID updated to \" + lastTran] = pass;",
+									"}",
+									"else",
+									"tests[\"LastTrasactionID test fails\"] = fail;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/v3/accounts/{{accountID}}/summary",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v3",
+								"accounts",
+								"{{accountID}}",
+								"summary"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/summary\\\""
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Instrument Details for Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "753f68a3-e486-47dd-9cc2-a8b04c2e2591",
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"//console.log(data);",
+									"//console.log(data.instruments);",
+									"var length = data.instruments.length;",
+									"tests[\"Instruments Length = \" + length] = data.instruments.length === 70;",
+									"",
+									"",
+									"var i;",
+									"var inst = data.instruments;",
+									"for (i = 0; i < inst.length; i++) { ",
+									"    var x = [(inst[i].displayName)];",
+									"    console.log(x.toString());",
+									"}",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/v3/accounts/{{accountID}}/instruments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v3",
+								"accounts",
+								"{{accountID}}",
+								"instruments"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/instruments\\\""
+					},
+					"response": []
+				},
+				{
+					"name": "Get EUR/USD Instrument Details for Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ad0d0c64-0a55-4fb7-9ceb-34c35321bede",
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"//console.log(data);",
+									"//console.log(data.instruments);",
+									"var length = data.instruments.length;",
+									"tests[\"Instruments Length = \" + length] = data.instruments.length === 1;",
+									"var displayName = data.instruments[0].displayName;",
+									"tests[\"displayName = \" + displayName] = data.instruments[0].displayName === \"EUR/USD\";",
+									"",
+									"pass = true;",
+									"fail = false;",
+									"var type = data.instruments[0].type;",
+									"if (displayName === \"EUR/USD\" && type === \"CURRENCY\") {",
+									"    tests[\"Type = \" + type] = pass;",
+									"}",
+									"else",
+									"    tests[\"Type = \" + type] = fail;",
+									"",
+									"",
+									"if (data.lastTransactionID === environment.lastTranID) {",
+									"    tests[\"LastTransactionID is correct = \" + data.lastTransactionID] = pass;",
+									"} ",
+									"else if (data.lastTransactionID != environment.lastTranID) {",
+									"    pm.environment.set(\"lastTranID\", data.lastTransactionID);",
+									"    tests[\"lastTranID updated to \" + data.lastTransactionID] = pass;",
+									"}",
+									"else",
+									"tests[\"LastTrasactionID test fails\"] = fail;",
+									"",
+									"var x = myFunction(4, 3);    // Function is called, return value will end up in x",
+									"function myFunction(a, b) {",
+									"    return a * b;            // Function returns the product of a and b",
+									"}",
+									"tests[\"Function calcs correctly\"] = x === 12;",
+									"console.log(x);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/v3/accounts/{{accountID}}/instruments?instruments=EUR_USD",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v3",
+								"accounts",
+								"{{accountID}}",
+								"instruments"
+							],
+							"query": [
+								{
+									"key": "instruments",
+									"value": "EUR_USD"
+								}
+							]
+						},
+						"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/instruments?instruments=EUR_USD\\\""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all changes for Account since Transaction 118",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1f10b71-cfbb-423c-87aa-bb532f8a9417",
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"//console.log(data.lastTransactionID);",
+									"//console.log(data.changes);",
+									"//console.log(data);",
+									"var lastTransactionID = data.lastTransactionID;",
+									"tests[\"lastTransactionID = \" +  lastTransactionID] = data.lastTransactionID === environment.lastTranID;",
+									"",
+									"pass = true;",
+									"fail = false;",
+									"",
+									"if (data.lastTransactionID === environment.lastTranID) {",
+									"    tests[\"LastTransactionID is correct = \" + data.lastTransactionID] = pass;",
+									"} ",
+									"else if (data.lastTransactionID != environment.lastTranID) {",
+									"    pm.environment.set(\"lastTranID\", data.lastTransactionID);",
+									"    tests[\"lastTranID updated to \" + data.lastTransactionID] = pass;",
+									"}",
+									"else",
+									"tests[\"LastTrasactionID test fails\"] = fail;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/v3/accounts/{{accountID}}/changes?sinceTransactionID={{lastTranID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v3",
+								"accounts",
+								"{{accountID}}",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "sinceTransactionID",
+									"value": "{{lastTranID}}"
+								}
+							]
+						},
+						"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer 98d2ffbb335c1dee36d95ccf9a61d94c-a8f675825a4e9370c3d4b2b225c38020\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/accounts/101-001-7586742-001/changes?sinceTransactionID=6358\\\""
+					},
+					"response": []
+				},
+				{
+					"name": "Set the margin rate override for Account to 50:1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c80d9b7-8ab1-425a-8727-a1c2f19d0dfe",
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"//console.log(data);",
+									"",
+									"var aID = data.clientConfigureTransaction.accountID;",
+									"var id = environment.accountID",
+									"tests[\"AccountID = \" + aID ] =  data.clientConfigureTransaction.accountID === id;",
+									"",
+									"var uID = data.clientConfigureTransaction.userID;",
+									"tests[\"UserID = \" + uID ] =  data.clientConfigureTransaction.userID === 7586742;",
+									"",
+									"tests[\"Content-Type header is set\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"var cth = postman.getResponseHeader(\"Content-Type\");",
+									"tests[\"Content-Type header = \" + cth] = postman.getResponseHeader(\"Content-Type\") === \"application/json\"",
+									"",
+									"var acah = postman.getResponseHeader(\"Access-Control-Allow-Headers\");",
+									"tests[\"Access-Control-Allow-Headers = \" + acah ] = postman.getResponseHeader(\"Access-Control-Allow-Headers\") === ",
+									"\"Authorization, Content-Type, Accept-Datetime-Format, OANDA-Agent, ETag\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"marginRate\": \"0.02\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/v3/accounts/{{accountID}}/configuration",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v3",
+								"accounts",
+								"{{accountID}}",
+								"configuration"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl \\\n  -X PATCH \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  -d \\\"{\n  \\\"marginRate\\\": \\\"0.02\\\"\n}\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/configuration\\\""
+					},
+					"response": []
+				}
+			],
+			"description": "http://developer.oanda.com/rest-live-v20/account-ep/",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1ac7d4a-fa47-41d2-aada-ca53985e5355",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7c623a26-434e-4a4b-a194-52ff2334e493",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Instrument Endpoints",
+			"item": [
+				{
+					"name": "candles",
+					"item": [
+						{
+							"name": "Get the 6 most recent midpoint-based EUR/USD 5-second candles",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2078d5ca-2e7d-4f17-90a5-579026530459",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var instrument = data.instrument;",
+											"tests[\"Instrument + \" + instrument] = data.instrument === \"EUR_USD\";",
+											"",
+											"var candles = data.candles.length;",
+											"//console.log(candles);",
+											"tests[\"Number of Candles = \" + candles] = data.candles.length === 6;"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/instruments/EUR_USD/candles?count=6&price=M&granularity=S5",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"instruments",
+										"EUR_USD",
+										"candles"
+									],
+									"query": [
+										{
+											"key": "count",
+											"value": "6"
+										},
+										{
+											"key": "price",
+											"value": "M"
+										},
+										{
+											"key": "granularity",
+											"value": "S5"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles?count=6&price=M&granularity=S5\\\""
+							},
+							"response": []
+						},
+						{
+							"name": "Get all bid/ask-based USD/CAD 1-minute candles since 2016-10-17T15:00:00",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c6792c3-31d7-4371-98e9-4ff87a215fbd",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"console.log(data);",
+											"",
+											"var gran = data.granularity;",
+											"//console.log(gran);",
+											"tests[\"Granualrity = \" + gran] = data.granularity === \"M1\";",
+											"",
+											"var inst = data.instrument;",
+											"//console.log(inst);",
+											"tests[\"Instrument = \" + inst] = data.instrument === \"USD_CAD\";",
+											"",
+											"var candles = data.candles.length;",
+											"tests[\"Number of Candles = \" + candles] = data.candles.length === 500;",
+											"",
+											"pass = true;",
+											"fail = false;",
+											"if (candles < 100){",
+											"    tests[candles +  \" is not too many candles\"] = pass;",
+											"}",
+											"else if (candles = 500) {",
+											"    tests[candles + \" whoa, that is alot of candles\"] = pass;",
+											"    }",
+											"else ",
+											"    tests[\"There are \" + candles + \" candles\"] = pass;"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/instruments/USD_CAD/candles?price=BA&from=2016-10-17T15%3A00%3A00.000000000Z&granularity=M1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"instruments",
+										"USD_CAD",
+										"candles"
+									],
+									"query": [
+										{
+											"key": "price",
+											"value": "BA"
+										},
+										{
+											"key": "from",
+											"value": "2016-10-17T15%3A00%3A00.000000000Z"
+										},
+										{
+											"key": "granularity",
+											"value": "M1"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/instruments/USD_CAD/candles?price=BA&from=2016-10-17T15%3A00%3A00.000000000Z&granularity=M1\\\""
+							},
+							"response": []
+						},
+						{
+							"name": "Get 10 ask-based USD/JPY 1-day candles starting at 2016-10-01T00:00:00",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6ca0cd6f-085f-45e5-9ed8-c62d8f453733",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var gran = data.granularity;",
+											"//console.log(gran);",
+											"tests[\"Granualrity = \" + gran] = data.granularity === \"D\";",
+											"",
+											"var inst = data.instrument;",
+											"//console.log(inst);",
+											"tests[\"Instrument = \" + inst] = data.instrument === \"USD_JPY\";",
+											"",
+											"var candles = data.candles.length;",
+											"tests[\"Number of Candles = \" + candles] = data.candles.length === 10;"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/instruments/USD_JPY/candles?count=10&price=A&from=2016-01-01T00%3A00%3A00.000000000Z&granularity=D",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"instruments",
+										"USD_JPY",
+										"candles"
+									],
+									"query": [
+										{
+											"key": "count",
+											"value": "10"
+										},
+										{
+											"key": "price",
+											"value": "A"
+										},
+										{
+											"key": "from",
+											"value": "2016-01-01T00%3A00%3A00.000000000Z"
+										},
+										{
+											"key": "granularity",
+											"value": "D"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/candles?count=10&price=A&from=2016-01-01T00%3A00%3A00.000000000Z&granularity=D\\\""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "orderBook",
+					"item": [
+						{
+							"name": "Get the most recent USD_JPY Order Book snapshot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "39e4dbd2-0c29-467b-8320-22fc6bd22a53",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var bw = data.orderBook.bucketWidth;",
+											"tests[\"BucketWidth = \" + bw] = data.orderBook.bucketWidth === \"0.050\";",
+											"",
+											"var inst = data.orderBook.instrument;",
+											"tests[\"Instrument = \" + inst] = data.orderBook.instrument === \"USD_JPY\";",
+											"",
+											"var buckets = data.orderBook.buckets.length;",
+											"tests[\"Number of Buckets = \" + buckets] = data.orderBook.buckets.length === 896;",
+											"",
+											"pass = true;",
+											"fail = false;",
+											"",
+											"if (buckets > 896) {",
+											"    tests[\"Number of Buckets = \" + buckets] = pass;",
+											"}",
+											"else {",
+											"    tests[\"Number of Buckets = \" + buckets] = fail;",
+											"}",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/instruments/USD_JPY/orderBook",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"instruments",
+										"USD_JPY",
+										"orderBook"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/orderBook\\\""
+							},
+							"response": []
+						},
+						{
+							"name": "Get the USD_JPY Order Book snapshot at 2018-01-13T04:20:00Z",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a63dcc05-fd8a-4fc1-af9a-aa2cb94521ac",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var bw = data.orderBook.bucketWidth;",
+											"tests[\"BucketWidth = \" + bw] = data.orderBook.bucketWidth === \"0.050\";",
+											"",
+											"var inst = data.orderBook.instrument;",
+											"tests[\"Instrument = \" + inst] = data.orderBook.instrument === \"USD_JPY\";",
+											"",
+											"var buckets = data.orderBook.buckets.length;",
+											"tests[\"Number of Buckets = \" + buckets] = data.orderBook.buckets.length === 665;"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/instruments/USD_JPY/orderBook?time=2018-01-13T04%3A20%3A00.000Z",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"instruments",
+										"USD_JPY",
+										"orderBook"
+									],
+									"query": [
+										{
+											"key": "time",
+											"value": "2018-01-13T04%3A20%3A00.000Z"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/orderBook?time=2017-01-13T04%3A20%3A00.000Z\\\""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "positionBook",
+					"item": [
+						{
+							"name": "Get the most recent USD_JPY Position Book snapshot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0f2fec55-1503-4b1a-a188-df1540f12258",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var buckets = data.positionBook.buckets.length;",
+											"tests[\"Number of Buckets = \" + buckets] = data.positionBook.buckets.length === 427;",
+											"",
+											"var inst = data.positionBook.instrument;",
+											"tests[\"Instrument = \" + inst] = data.positionBook.instrument === \"USD_JPY\";"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/instruments/USD_JPY/positionBook",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"instruments",
+										"USD_JPY",
+										"positionBook"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/positionBook\\\""
+							},
+							"response": []
+						},
+						{
+							"name": "Get the USD_JPY Position Book snapshot at 2018-01-13T04:00:00Z",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "69292acf-df8f-4660-9535-08317f9b7a07",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var buckets = data.positionBook.buckets.length;",
+											"tests[\"Number of Buckets = \" + buckets] = data.positionBook.buckets.length === 427;",
+											"",
+											"var inst = data.positionBook.instrument;",
+											"tests[\"Instrument = \" + inst] = data.positionBook.instrument === \"USD_JPY\";"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/instruments/USD_JPY/positionBook?time=2018-01-13T04%3A00%3A00.000Z",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"instruments",
+										"USD_JPY",
+										"positionBook"
+									],
+									"query": [
+										{
+											"key": "time",
+											"value": "2018-01-13T04%3A00%3A00.000Z"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/positionBook?time=2017-01-13T04%3A00%3A00.000Z\\\""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"description": "http://developer.oanda.com/rest-live-v20/instrument-ep/",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "eab489b6-f05e-41f2-898e-018f5f219afd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0d43885-ad8b-44e4-956a-0256f66dc985",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Order Endpoints",
+			"item": [
+				{
+					"name": "POST Orders",
+					"item": [
+						{
+							"name": "Create EUR/USD Market Order to buy 100 units",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2c825230-8956-486d-b048-00606bb9fcc7",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var aID = data.orderCreateTransaction.accountID;",
+											"var id = environment.accountID",
+											"//console.log(id);",
+											"tests[\"AccountID = \" + aID] = data.orderCreateTransaction.accountID = id;"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"order\":\n\t{\n    \"units\": \"100\",\n    \"instrument\": \"EUR_USD\",\n    \"timeInForce\": \"FOK\",\n    \"type\": \"MARKET\",\n    \"positionFill\": \"DEFAULT\"\n\t}\n}"
+								},
+								"url": {
+									"raw": "{{url}}/v3/accounts/{{accountID}}/orders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"accounts",
+										"{{accountID}}",
+										"orders"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -X POST \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer 98d2ffbb335c1dee36d95ccf9a61d94c-a8f675825a4e9370c3d4b2b225c38020\\\" \\\n  -d \\\"{\n  \\\"order\\\": {\n    \\\"units\\\": \\\"100\\\",\n    \\\"instrument\\\": \\\"EUR_USD\\\",\n    \\\"timeInForce\\\": \\\"FOK\\\",\n    \\\"type\\\": \\\"MARKET\\\",\n    \\\"positionFill\\\": \\\"DEFAULT\\\"\n  }\n}\\\" \\\n  \\\"https://api-fxpractice.oanda.com/v3/accounts/101-001-7586742-001/orders\\\""
+							},
+							"response": []
+						},
+						{
+							"name": "Create EUR/USD Market Order to sell 100 units",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "08346322-8456-43e0-92f5-99b605fd3adb",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var aID = data.orderCreateTransaction.accountID;",
+											"var id = environment.accountID",
+											"//console.log(id);",
+											"tests[\"AccountID = \" + aID] = data.orderCreateTransaction.accountID = id;"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"order\": {\n    \"units\": \"-100\",\n    \"instrument\": \"EUR_USD\",\n    \"timeInForce\": \"FOK\",\n    \"type\": \"MARKET\",\n    \"positionFill\": \"DEFAULT\"\n  }\n}"
+								},
+								"url": {
+									"raw": "{{url}}/v3/accounts/{{accountID}}/orders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"accounts",
+										"{{accountID}}",
+										"orders"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -X POST \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  -d \\\"{\n  \\\"order\\\": {\n    \\\"units\\\": \\\"-100\\\",\n    \\\"instrument\\\": \\\"EUR_USD\\\",\n    \\\"timeInForce\\\": \\\"FOK\\\",\n    \\\"type\\\": \\\"MARKET\\\",\n    \\\"positionFill\\\": \\\"DEFAULT\\\"\n  }\n}\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/orders\\\""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "GET Orders",
+					"item": [
+						{
+							"name": "Get all Orders for instrument EUR_CAD",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dd61409b-6068-4e74-b85f-fd52ef8eb224",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/accounts/{{accountID}}/orders?instrument=EUR_USD",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"accounts",
+										"{{accountID}}",
+										"orders"
+									],
+									"query": [
+										{
+											"key": "instrument",
+											"value": "EUR_USD"
+										}
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/orders?instrument=EUR_USD\\\""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "PendingOrders",
+					"item": [
+						{
+							"name": "Get all Pending Orders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8465671c-8afa-431b-91ab-55771f80036c",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/accounts/{{accountID}}/pendingOrders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"accounts",
+										"{{accountID}}",
+										"pendingOrders"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/pendingOrders\\\""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "GET orderSpecifier",
+					"item": [
+						{
+							"name": "Get Order with Client ID “my_order_100”",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a3eb168f-251d-40e1-8f48-9ca14f9173b8",
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"//console.log(data);",
+											"",
+											"var mes = data.errorMessage;",
+											"tests[\"ErrorMessage = \" + mes] = data.errorMessage === \"The order ID specified does not exist\";",
+											"",
+											"var code = data.errorCode;",
+											"tests[\"ErrorCode = \" + code] = data.errorCode === \"NO_SUCH_ORDER\""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/v3/accounts/{{accountID}}/orders/@my_order_100",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v3",
+										"accounts",
+										"{{accountID}}",
+										"orders",
+										"@my_order_100"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl \\\n  -H \\\"Content-Type: application/json\\\" \\\n  -H \\\"Authorization: Bearer <AUTHENTICATION TOKEN>\\\" \\\n  \\\"https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/orders/@my_order_100\\\""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "PUT orderSpecifier",
+					"item": [],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "PUT Cancel Order",
+					"item": [],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "PUT clientExtensions",
+					"item": [],
+					"_postman_isSubFolder": true
+				}
+			],
+			"description": "http://developer.oanda.com/rest-live-v20/order-ep/"
+		},
+		{
+			"name": "Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "253d749b-a9d6-4bab-8a6e-02fe8aa5e435",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"var id = data.accounts[0].id;",
+							"//console.log(id);",
+							"tests[\"Response ID = \" + id] = data.accounts[0].id === \"101-001-7586742-001\";",
+							"",
+							"pass = true;",
+							"fail = false;",
+							"if (id === environment.accountID){",
+							"    pm.environment.set(\"accountID\", id);",
+							"    tests[\"AccountID = \" + id] = pass;}",
+							"else ",
+							"    tests[\"AccountID = \" + id] = fail;",
+							"    ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/v3/accounts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v3",
+						"accounts"
+					]
+				},
+				"description": "Generated from a curl request: \ncurl -H \\\"Authorization: Bearer 98d2ffbb335c1dee36d95ccf9a61d94c-a8f675825a4e9370c3d4b2b225c38020\\\" https://api-fxtrade.oanda.com/v3/accounts"
+			},
+			"response": []
+		}
+	]
+}
