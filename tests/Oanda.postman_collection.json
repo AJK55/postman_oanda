@@ -872,7 +872,7 @@
 											"//console.log(data);",
 											"",
 											"var buckets = data.positionBook.buckets.length;",
-											"tests[\"Number of Buckets = \" + buckets] = data.positionBook.buckets.length === 427;",
+											"tests[\"Number of Buckets = \" + buckets] = data.positionBook.buckets.length === 426;",
 											"",
 											"var inst = data.positionBook.instrument;",
 											"tests[\"Instrument = \" + inst] = data.positionBook.instrument === \"USD_JPY\";"
