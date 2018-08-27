@@ -577,11 +577,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6c6792c3-31d7-4371-98e9-4ff87a215fbd",
+										"id": "9c3946b2-84fa-4f5e-9dec-6043baca2f7e",
 										"type": "text/javascript",
 										"exec": [
 											"var data = JSON.parse(responseBody);",
-											"console.log(data);",
+											"//console.log(data);",
 											"",
 											"var gran = data.granularity;",
 											"//console.log(gran);",
@@ -865,7 +865,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0f2fec55-1503-4b1a-a188-df1540f12258",
+										"id": "83744231-06ef-45d6-ae0e-4fe1af4548e9",
 										"type": "text/javascript",
 										"exec": [
 											"var data = JSON.parse(responseBody);",
